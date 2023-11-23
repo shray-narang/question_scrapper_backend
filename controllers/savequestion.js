@@ -221,4 +221,26 @@ savequestion_leet.post('/update', async (req, res) => {
   )
 })
 
+savequestion_leet.get('/question/:id', async (req, res) => {
+  try {
+    const { id } = req.params // Extract the id from the request parameters
+
+    // Use Mongoose to find a question by its _id
+    const question = await Question.findById(id)
+
+    if (question) {
+      // If the question is found, return it
+      res.json(question)
+    } else {
+      // If no question is found with the given _id
+      res.status(404).json({ message: 'Question not found' })
+    }
+  } catch (error) {
+    console.error(error)
+    res
+      .status(500)
+      .json({ error: 'An error occurred while searching for the question' })
+  }
+})
+
 module.exports = savequestion_leet
